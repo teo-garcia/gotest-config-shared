@@ -1,0 +1,63 @@
+## Canonical Go test and coverage configuration for teo-garcia Go templates.
+##
+## `go test` has no config file, so this baseline is consumed two ways:
+##   * `gotest-config-path --args` prints the canonical `go test` flags.
+##   * `gotest-cover` reads the coverage profile and emits the portfolio
+##     reporters, applying the exclusions Go itself cannot express.
+version: "1"
+
+test:
+  # -race catches data races that only show up under load in production.
+  race: true
+  # -shuffle=on stops tests from depending on declaration order.
+  shuffle: "on"
+  timeout: 5m
+  # Verbose output is CI's job, not the default developer loop.
+  verbose: false
+  packages: ./...
+
+coverage:
+  # atomic is required whenever -race is on; count/set undercount concurrent hits.
+  covermode: atomic
+
+  ## Without -coverpkg, Go credits a package only for the tests inside it, so a
+  ## layered service whose HTTP tests exercise the middleware and domain
+  ## packages reports a total far below reality. This attributes coverage
+  ## across the whole module.
+  coverpkg: ./...
+  dir: coverage
+  profile: coverage/coverage.out
+
+  ## Portfolio coverage contract: text, lcov, html — in that order.
+  reporters:
+    - text
+    - lcov
+    - html
+  lcov: coverage/lcov.info
+  html: coverage/coverage.html
+
+  ## Thresholds are deliberately NOT enforced. A template ships a starter
+  ## suite, so any floor would fail every project generated from it on day one.
+  ## If a floor is ever wanted it must be added to every template in the same
+  ## change, not one at a time.
+  threshold: 0
+
+  ## Go cannot exclude files from a coverage profile, so `gotest-cover` filters
+  ## them out after the fact. Patterns match the package-relative file path and
+  ## support `**`.
+  exclude:
+    # Tests and test scaffolding.
+    - "**/*_test.go"
+    - "**/testdata/**"
+    - "**/mocks/**"
+    - "**/*_mock.go"
+    # Generated code.
+    - "**/*.gen.go"
+    - "**/*_generated.go"
+    - "**/*.pb.go"
+    - "**/zz_generated*.go"
+    - "**/docs/docs.go"
+    # Framework entrypoints and wiring: no branching logic worth asserting.
+    - "cmd/**/main.go"
+    - "**/migrations/**"
+    - "**/seed/**"
