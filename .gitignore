@@ -1,2 +1,5 @@
 bin/
+.cache/
 coverage/
+# Generated from golangci-config-shared by `make lint-sync`.
+.golangci.yml

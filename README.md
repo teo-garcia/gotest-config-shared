@@ -52,7 +52,7 @@ modes undercount concurrent hits and would silently report low coverage.
 
 ## Requirements
 
-- Go 1.25+
+- Go 1.25.13+
 
 ---
 
@@ -139,12 +139,16 @@ err = filtered.WriteLCOV(w)
 | Command | Description |
 | --- | --- |
 | `make tools` | Install the pinned golangci-lint into `./bin` |
+| `make config-check` | Generate and schema-check the shared lint configuration |
+| `make consumer-check` | Exercise flags, exclusions, reporters, and thresholds from a clean consumer |
 | `make lint-check` | Run linters |
 | `make format` | Apply formatters |
 | `make format-check` | Verify formatting without writing |
 | `make test` | Run tests with `-race -shuffle=on` |
 | `make coverage` | Self-hosted: collects with its own flags, reports with its own reporter |
-| `make check` | Single CI gate: lint + format-check + test |
+| `make security` | Scan reachable code with pinned `govulncheck` |
+| `make check` | Single local and CI gate |
+| `make verify-release VERSION=v0.1.0` | Validate a Go module release tag |
 
 ---
 
