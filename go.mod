@@ -1,6 +1,6 @@
 module github.com/teo-garcia/gotest-config-shared
 
-go 1.25.13
+go 1.26.11
 
 require gopkg.in/yaml.v3 v3.0.1
 

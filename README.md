@@ -5,7 +5,7 @@
 **Shared `go test` and coverage configuration for teo-garcia Go templates**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Go](https://img.shields.io/badge/Go-1.25+-00ADD8?logo=go&logoColor=white)](https://go.dev)
+[![Go](https://img.shields.io/badge/Go-1.26+-00ADD8?logo=go&logoColor=white)](https://go.dev)
 
 Part of the [@teo-garcia/templates](https://github.com/teo-garcia/templates) ecosystem
 
@@ -52,7 +52,7 @@ modes undercount concurrent hits and would silently report low coverage.
 
 ## Requirements
 
-- Go 1.25.13+
+- Go 1.26.11+
 
 ---
 
